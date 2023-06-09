@@ -14,7 +14,6 @@ import sys
 import logging
 from pathlib import Path
 from dice_score import *
-from evaluate import evaluate
 from unet import UNet
 from torch import optim
 import wandb
@@ -27,6 +26,7 @@ import time
 import Attention_Unet_Pytorch.models.unet as unet
 from patchify import patchify,unpatchify
 import math
+
 torch.manual_seed(42)
 def tensor2image_cpu(tensor):
     image = 127.5*(tensor + 1.0)
@@ -57,9 +57,6 @@ for model_folder in model_test_folders:
     dataloader = DataLoader(dataset, batch_size=1, shuffle=False)
     max_dice = 0
     best_epoch = 0
-
-    if "gamma1" in model_folder or "gamma2" in model_folder or "default" in model_folder:
-        continue
 
     for epoch in range(5,81,5):
 
